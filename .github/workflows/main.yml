@@ -7,7 +7,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    name:Linux
+    name: Linux
     runs-on: ubuntu-latest
     steps:
       - name: 获取代码
