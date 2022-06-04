@@ -1,8 +1,7 @@
 name: Flutter Web
 on:
   push:
-    branches:
-      - master
+    branches: [ "main" ]
 jobs:
   build:
     name: Build Web
@@ -10,23 +9,26 @@ jobs:
       my_secret: ${{secrets.commit_secret}}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: subosito/flutter-action@v1
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
         with:
-          channel: 'channel'
-      - run: flutter config --enable-web
-      - run: flutter pub get
+           channel: 'stable'
+      - run: |
+         sudo apt-get update -y
+         sudo apt-get install -y ninja-build libgtk-3-dev
+      - run: flutter config --enable-linux-desktop
       - run: flutter build web --release
       - run: |
           cd build/web
           git init
           # 改成你的提交邮箱
-          git config --global user.email tgfiles098@outlook.com
+          git config --global user.email telefiles098@outlook.com
           # 改成你的提交用户名
           git config --global user.name telefiless
           git status
-          git remote add origin https://${{secrets.commit_secret}}@github.com/telefiless/flutter_build_demo.git
+          git remote add origin https://${{secrets.commit_secret}}@github.com/telefiless//flutter_build_demo.git
           git checkout -b gh-pages
           git add --all
           git commit -m "update"
           git push origin gh-pages -f
+
